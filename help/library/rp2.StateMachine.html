@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>class StateMachine – access to the RP2040’s programmable I/O interface &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="zephyr — functionality specific to the Zephyr port" href="zephyr.html" />
+    <link rel="prev" title="class PIO – advanced PIO usage" href="rp2.PIO.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">MicroPython libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#python-standard-libraries-and-micro-libraries">Python standard libraries and micro-libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#micropython-specific-libraries">MicroPython-specific libraries</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#port-specific-libraries">Port-specific libraries</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#libraries-specific-to-the-pyboard">Libraries specific to the pyboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#libraries-specific-to-the-wipy">Libraries specific to the WiPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#libraries-specific-to-the-esp8266-and-esp32">Libraries specific to the ESP8266 and ESP32</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#libraries-specific-to-the-rp2040">Libraries specific to the RP2040</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="rp2.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rp2</span></code> — functionality specific to the RP2040</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#libraries-specific-to-zephyr">Libraries specific to Zephyr</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#extending-built-in-libraries-from-python">Extending built-in libraries from Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">MicroPython license information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyboard/quickref.html">Quick reference for the pyboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp8266/quickref.html">Quick reference for the ESP8266</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wipy/quickref.html">Quick reference for the WiPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zephyr/quickref.html">Quick reference for the Zephyr port</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">MicroPython libraries</a> &raquo;</li>
+          <li><a href="rp2.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rp2</span></code> — functionality specific to the RP2040</a> &raquo;</li>
+      <li>class StateMachine – access to the RP2040’s programmable I/O interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/library/rp2.StateMachine.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-statemachine-access-to-the-rp2040-s-programmable-i-o-interface">
+<span id="rp2-statemachine"></span><h1>class StateMachine – access to the RP2040’s programmable I/O interface<a class="headerlink" href="#class-statemachine-access-to-the-rp2040-s-programmable-i-o-interface" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="#rp2.StateMachine" title="rp2.StateMachine"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateMachine</span></code></a> class gives access to the RP2040’s PIO (programmable
+I/O) interface.</p>
+<p>For assembling PIO programs, see <a class="reference internal" href="rp2.html#rp2.asm_pio" title="rp2.asm_pio"><code class="xref py py-func docutils literal notranslate"><span class="pre">rp2.asm_pio()</span></code></a>.</p>
+<section id="constructors">
+<h2>Constructors<a class="headerlink" href="#constructors" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rp2.StateMachine">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rp2.</span></span><span class="sig-name descname"><span class="pre">StateMachine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">id</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">program</span></em>, <em class="sig-param"><span class="pre">...</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#rp2.StateMachine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the state machine numbered <em>id</em>. The RP2040 has two identical PIO
+instances, each with 4 state machines: so there are 8 state machines in
+total, numbered 0 to 7.</p>
+<p>Optionally initialize it with the given program <em>program</em>: see
+<a class="reference internal" href="#rp2.StateMachine.init" title="rp2.StateMachine.init"><code class="xref any py py-meth docutils literal notranslate"><span class="pre">StateMachine.init</span></code></a>.</p>
+</dd></dl>
+
+</section>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="rp2.StateMachine.init">
+<span class="sig-prename descclassname"><span class="pre">StateMachine.</span></span><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">program</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jmp_pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sideset_base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_shiftdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_shiftdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">push_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pull_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rp2.StateMachine.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the state machine instance to run the given <em>program</em>.</p>
+<p>The program is added to the instruction memory of this PIO instance. If the
+instruction memory already contains this program, then its offset is
+re-used so as to save on instruction memory.</p>
+<ul>
+<li><p><em>freq</em> is the frequency in Hz to run the state machine at. Defaults to
+the system clock frequency.</p>
+<p>The clock divider is computed as <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">clock</span> <span class="pre">frequency</span> <span class="pre">/</span> <span class="pre">freq</span></code>, so
+there can be slight rounding errors.</p>
+<p>The minimum possible clock divider is one 65536th of the system clock: so
+at the default system clock frequency of 125MHz, the minimum value of
+<em>freq</em> is <code class="docutils literal notranslate"><span class="pre">1908</span></code>. To run state machines at slower frequencies, you’ll
+need to reduce the system clock speed with <a class="reference internal" href="machine.html#machine.freq" title="machine.freq"><code class="xref any py py-func docutils literal notranslate"><span class="pre">machine.freq()</span></code></a>.</p>
+</li>
+<li><p><em>in_base</em> is the first pin to use for <code class="docutils literal notranslate"><span class="pre">in()</span></code> instructions.</p></li>
+<li><p><em>out_base</em> is the first pin to use for <code class="docutils literal notranslate"><span class="pre">out()</span></code> instructions.</p></li>
+<li><p><em>set_base</em> is the first pin to use for <code class="docutils literal notranslate"><span class="pre">set()</span></code> instructions.</p></li>
+<li><p><em>jmp_pin</em> is the first pin to use for <code class="docutils literal notranslate"><span class="pre">jmp(pin,</span> <span class="pre">...)</span></code> instructions.</p></li>
+<li><p><em>sideset_base</em> is the first pin to use for side-setting.</p></li>
+<li><p><em>in_shiftdir</em> is the direction the ISR will shift, either
+<a class="reference internal" href="rp2.PIO.html#rp2.PIO.SHIFT_LEFT" title="rp2.PIO.SHIFT_LEFT"><code class="xref any py py-data docutils literal notranslate"><span class="pre">PIO.SHIFT_LEFT</span></code></a> or <a class="reference internal" href="rp2.PIO.html#rp2.PIO.SHIFT_RIGHT" title="rp2.PIO.SHIFT_RIGHT"><code class="xref any py py-data docutils literal notranslate"><span class="pre">PIO.SHIFT_RIGHT</span></code></a>.</p></li>
+<li><p><em>out_shiftdir</em> is the direction the OSR will shift, either
+<a class="reference internal" href="rp2.PIO.html#rp2.PIO.SHIFT_LEFT" title="rp2.PIO.SHIFT_LEFT"><code class="xref any py py-data docutils literal notranslate"><span class="pre">PIO.SHIFT_LEFT</span></code></a> or <a class="reference internal" href="rp2.PIO.html#rp2.PIO.SHIFT_RIGHT" title="rp2.PIO.SHIFT_RIGHT"><code class="xref any py py-data docutils literal notranslate"><span class="pre">PIO.SHIFT_RIGHT</span></code></a>.</p></li>
+<li><p><em>push_thresh</em> is the threshold in bits before auto-push or conditional
+re-pushing is triggered.</p></li>
+<li><p><em>pull_thresh</em> is the threshold in bits before auto-push or conditional
+re-pushing is triggered.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rp2.StateMachine.active">
+<span class="sig-prename descclassname"><span class="pre">StateMachine.</span></span><span class="sig-name descname"><span class="pre">active</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="pre">value</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#rp2.StateMachine.active" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets whether the state machine is currently running.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span><span class="o">.</span><span class="n">active</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span><span class="o">.</span><span class="n">active</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rp2.StateMachine.restart">
+<span class="sig-prename descclassname"><span class="pre">StateMachine.</span></span><span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rp2.StateMachine.restart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Restarts the state machine and jumps to the beginning of the program.</p>
+<p>This method clears the state machine’s internal state using the RP2040’s
+<code class="docutils literal notranslate"><span class="pre">SM_RESTART</span></code> register. This includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>input and output shift counters</p></li>
+<li><p>the contents of the input shift register</p></li>
+<li><p>the delay counter</p></li>
+<li><p>the waiting-on-IRQ state</p></li>
+<li><p>a stalled instruction run using <a class="reference internal" href="#rp2.StateMachine.exec" title="rp2.StateMachine.exec"><code class="xref any py py-meth docutils literal notranslate"><span class="pre">StateMachine.exec()</span></code></a></p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rp2.StateMachine.exec">
+<span class="sig-prename descclassname"><span class="pre">StateMachine.</span></span><span class="sig-name descname"><span class="pre">exec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rp2.StateMachine.exec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a single PIO instruction. Uses <a class="reference internal" href="rp2.html#rp2.asm_pio_encode" title="rp2.asm_pio_encode"><code class="xref any py py-func docutils literal notranslate"><span class="pre">asm_pio_encode</span></code></a> to encode the
+instruction from the given string <em>instr</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s2">&quot;set(0, 1)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rp2.StateMachine.get">
+<span class="sig-prename descclassname"><span class="pre">StateMachine.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rp2.StateMachine.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pull a word from the state machine’s RX FIFO.</p>
+<p>If the FIFO is empty, it blocks until data arrives (i.e. the state machine
+pushes a word).</p>
+<p>The value is shifted right by <em>shift</em> bits before returning, i.e. the
+return value is <code class="docutils literal notranslate"><span class="pre">word</span> <span class="pre">&gt;&gt;</span> <span class="pre">shift</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rp2.StateMachine.put">
+<span class="sig-prename descclassname"><span class="pre">StateMachine.</span></span><span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rp2.StateMachine.put" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push a word onto the state machine’s TX FIFO.</p>
+<p>If the FIFO is full, it blocks until there is space (i.e. the state machine
+pulls a word).</p>
+<p>The value is first shifted left by <em>shift</em> bits, i.e. the state machine
+receives <code class="docutils literal notranslate"><span class="pre">value</span> <span class="pre">&lt;&lt;</span> <span class="pre">shift</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rp2.StateMachine.rx_fifo">
+<span class="sig-prename descclassname"><span class="pre">StateMachine.</span></span><span class="sig-name descname"><span class="pre">rx_fifo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rp2.StateMachine.rx_fifo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of words in the state machine’s RX FIFO. A value of 0
+indicates the FIFO is empty.</p>
+<p>Useful for checking if data is waiting to be read, before calling
+<a class="reference internal" href="#rp2.StateMachine.get" title="rp2.StateMachine.get"><code class="xref any py py-meth docutils literal notranslate"><span class="pre">StateMachine.get()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rp2.StateMachine.tx_fifo">
+<span class="sig-prename descclassname"><span class="pre">StateMachine.</span></span><span class="sig-name descname"><span class="pre">tx_fifo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rp2.StateMachine.tx_fifo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of words in the state machine’s TX FIFO. A value of 0
+indicates the FIFO is empty.</p>
+<p>Useful for checking if there is space to push another word using
+<a class="reference internal" href="#rp2.StateMachine.put" title="rp2.StateMachine.put"><code class="xref any py py-meth docutils literal notranslate"><span class="pre">StateMachine.put()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rp2.StateMachine.irq">
+<span class="sig-prename descclassname"><span class="pre">StateMachine.</span></span><span class="sig-name descname"><span class="pre">irq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trigger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span> <span class="pre">|</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rp2.StateMachine.irq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the IRQ object for the given StateMachine.</p>
+<p>Optionally configure it.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rp2.PIO.html" class="btn btn-neutral float-left" title="class PIO – advanced PIO usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="zephyr.html" class="btn btn-neutral float-right" title="zephyr — functionality specific to the Zephyr port" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

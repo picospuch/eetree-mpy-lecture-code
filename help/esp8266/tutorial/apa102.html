@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>12. Controlling APA102 LEDs &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="13. Temperature and Humidity" href="dht.html" />
+    <link rel="prev" title="11. Controlling NeoPixels" href="neopixel.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../library/index.html">MicroPython libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">MicroPython license information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyboard/quickref.html">Quick reference for the pyboard</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickref.html">Quick reference for the ESP8266</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general.html">General information about the ESP8266 port</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">MicroPython tutorial for ESP8266</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="intro.html">1. Getting started with MicroPython on the ESP8266</a></li>
+<li class="toctree-l3"><a class="reference internal" href="repl.html">2. Getting a MicroPython REPL prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filesystem.html">3. The internal filesystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="network_basics.html">4. Network basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="network_tcp.html">5. Network - TCP sockets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pins.html">6. GPIO Pins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pwm.html">7. Pulse Width Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html">8. Analog to Digital Conversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="powerctrl.html">9. Power control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="onewire.html">10. Controlling 1-wire devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neopixel.html">11. Controlling NeoPixels</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">12. Controlling APA102 LEDs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dht.html">13. Temperature and Humidity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssd1306.html">14. Using a SSD1306 OLED display</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nextsteps.html">15. Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#installing-micropython">Installing MicroPython</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#general-board-control">General board control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#networking">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#delay-and-timing">Delay and timing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#timers">Timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pins-and-gpio">Pins and GPIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#uart-serial-bus">UART (serial bus)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pwm-pulse-width-modulation">PWM (pulse width modulation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#adc-analog-to-digital-conversion">ADC (analog to digital conversion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#software-spi-bus">Software SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#hardware-spi-bus">Hardware SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#i2c-bus">I2C bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#real-time-clock-rtc">Real time clock (RTC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#wdt-watchdog-timer">WDT (Watchdog timer)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#deep-sleep-mode">Deep-sleep mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#onewire-driver">OneWire driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#neopixel-driver">NeoPixel driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#apa102-driver">APA102 driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#dht-driver">DHT driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#ssd1306-driver">SSD1306 driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#webrepl-web-browser-interactive-prompt">WebREPL (web browser interactive prompt)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wipy/quickref.html">Quick reference for the WiPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zephyr/quickref.html">Quick reference for the Zephyr port</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../quickref.html">Quick reference for the ESP8266</a> &raquo;</li>
+          <li><a href="index.html">MicroPython tutorial for ESP8266</a> &raquo;</li>
+      <li><span class="section-number">12. </span>Controlling APA102 LEDs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/esp8266/tutorial/apa102.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="controlling-apa102-leds">
+<h1><span class="section-number">12. </span>Controlling APA102 LEDs<a class="headerlink" href="#controlling-apa102-leds" title="Permalink to this headline">¶</a></h1>
+<p>APA102 LEDs, also known as DotStar LEDs, are individually addressable
+full-colour RGB LEDs, generally in a string formation. They differ from
+NeoPixels in that they require two pins to control - both a Clock and Data pin.
+They can operate at a much higher data and PWM frequencies than NeoPixels and
+are more suitable for persistence-of-vision effects.</p>
+<p>To create an APA102 object do the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">machine</span><span class="o">,</span> <span class="nn">apa102</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">strip</span> <span class="o">=</span> <span class="n">apa102</span><span class="o">.</span><span class="n">APA102</span><span class="p">(</span><span class="n">machine</span><span class="o">.</span><span class="n">Pin</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">machine</span><span class="o">.</span><span class="n">Pin</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="mi">60</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This configures an 60 pixel APA102 strip with clock on GPIO5 and data on GPIO4.
+You can adjust the pin numbers and the number of pixels to suit your needs.</p>
+<p>The RGB colour data, as well as a brightness level, is sent to the APA102 in a
+certain order.  Usually this is <code class="docutils literal notranslate"><span class="pre">(Red,</span> <span class="pre">Green,</span> <span class="pre">Blue,</span> <span class="pre">Brightness)</span></code>.
+If you are using one of the newer APA102C LEDs the green and blue are swapped,
+so the order is <code class="docutils literal notranslate"><span class="pre">(Red,</span> <span class="pre">Blue,</span> <span class="pre">Green,</span> <span class="pre">Brightness)</span></code>.
+The APA102 has more of a square lens while the APA102C has more of a round one.
+If you are using a APA102C strip and would prefer to provide colours in RGB
+order instead of RBG, you can customise the tuple colour order like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">strip</span><span class="o">.</span><span class="n">ORDER</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To set the colour of pixels use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">strip</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span> <span class="c1"># set to white, full brightness</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">strip</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span> <span class="c1"># set to red, full brightness</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">strip</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span> <span class="c1"># set to green, half brightness</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">strip</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>  <span class="c1"># set to blue, quarter brightness</span>
+</pre></div>
+</div>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">write()</span></code> method to output the colours to the LEDs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">strip</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Demonstration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">machine</span><span class="o">,</span> <span class="nn">apa102</span>
+
+<span class="c1"># 1M strip with 60 LEDs</span>
+<span class="n">strip</span> <span class="o">=</span> <span class="n">apa102</span><span class="o">.</span><span class="n">APA102</span><span class="p">(</span><span class="n">machine</span><span class="o">.</span><span class="n">Pin</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">machine</span><span class="o">.</span><span class="n">Pin</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="n">brightness</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># 0 is off, 1 is dim, 31 is max</span>
+
+<span class="c1"># Helper for converting 0-255 offset to a colour tuple</span>
+<span class="k">def</span> <span class="nf">wheel</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">brightness</span><span class="p">):</span>
+    <span class="c1"># The colours are a transition r - g - b - back to r</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="n">offset</span>
+    <span class="k">if</span> <span class="n">offset</span> <span class="o">&lt;</span> <span class="mi">85</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">255</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">offset</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">brightness</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">offset</span> <span class="o">&lt;</span> <span class="mi">170</span><span class="p">:</span>
+        <span class="n">offset</span> <span class="o">-=</span> <span class="mi">85</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">offset</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">255</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">brightness</span><span class="p">)</span>
+    <span class="n">offset</span> <span class="o">-=</span> <span class="mi">170</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">255</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">brightness</span><span class="p">)</span>
+
+<span class="c1"># Demo 1: RGB RGB RGB</span>
+<span class="n">red</span> <span class="o">=</span> <span class="mh">0xff0000</span>
+<span class="n">green</span> <span class="o">=</span> <span class="n">red</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span>
+<span class="n">blue</span> <span class="o">=</span> <span class="n">red</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">strip</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">colour</span> <span class="o">=</span> <span class="n">red</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span>
+    <span class="n">strip</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">colour</span> <span class="o">&amp;</span> <span class="n">red</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">,</span> <span class="p">(</span><span class="n">colour</span> <span class="o">&amp;</span> <span class="n">green</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">,</span> <span class="p">(</span><span class="n">colour</span> <span class="o">&amp;</span> <span class="n">blue</span><span class="p">),</span> <span class="n">brightness</span><span class="p">)</span>
+<span class="n">strip</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+
+<span class="c1"># Demo 2: Show all colours of the rainbow</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">strip</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">strip</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">wheel</span><span class="p">((</span><span class="n">i</span> <span class="o">*</span> <span class="mi">256</span> <span class="o">//</span> <span class="n">strip</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">%</span> <span class="mi">255</span><span class="p">,</span> <span class="n">brightness</span><span class="p">)</span>
+<span class="n">strip</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+
+<span class="c1"># Demo 3: Fade all pixels together through rainbow colours, offset each pixel</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">strip</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">strip</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">wheel</span><span class="p">(((</span><span class="n">i</span> <span class="o">*</span> <span class="mi">256</span> <span class="o">//</span> <span class="n">strip</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">255</span><span class="p">,</span> <span class="n">brightness</span><span class="p">)</span>
+        <span class="n">strip</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep_ms</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+
+<span class="c1"># Demo 4: Same colour, different brightness levels</span>
+<span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">strip</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">strip</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep_ms</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span>
+
+<span class="c1"># End: Turn off all the LEDs</span>
+<span class="n">strip</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">strip</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="neopixel.html" class="btn btn-neutral float-left" title="11. Controlling NeoPixels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dht.html" class="btn btn-neutral float-right" title="13. Temperature and Humidity" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. Turning on LEDs and basic Python concepts &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="5. Switches, callbacks and interrupts" href="switch.html" />
+    <link rel="prev" title="3. Getting a MicroPython REPL prompt" href="repl.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../library/index.html">MicroPython libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">MicroPython license information</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickref.html">Quick reference for the pyboard</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general.html">General information about the pyboard</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">MicroPython tutorial for the pyboard</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="intro.html">1. Introduction to the pyboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="script.html">2. Running your first script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="repl.html">3. Getting a MicroPython REPL prompt</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">4. Turning on LEDs and basic Python concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#a-disco-on-your-pyboard">4.1. A Disco on your pyboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-special-leds">4.2. The Special LEDs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="switch.html">5. Switches, callbacks and interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="accel.html">6. The accelerometer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reset.html">7. Safe mode and factory reset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usb_mouse.html">8. Making the pyboard act as a USB mouse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">9. The Timers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="assembler.html">10. Inline assembler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_ctrl.html">11. Power control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#tutorials-requiring-extra-components">Tutorials requiring extra components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#tips-tricks-and-useful-things-to-know">Tips, tricks and useful things to know</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#general-board-control">General board control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#delay-and-timing">Delay and timing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#internal-leds">Internal LEDs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#internal-switch">Internal switch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pins-and-gpio">Pins and GPIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#servo-control">Servo control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#external-interrupts">External interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#timers">Timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#rtc-real-time-clock">RTC (real time clock)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pwm-pulse-width-modulation">PWM (pulse width modulation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#adc-analog-to-digital-conversion">ADC (analog to digital conversion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#dac-digital-to-analog-conversion">DAC (digital to analog conversion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#uart-serial-bus">UART (serial bus)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#spi-bus">SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#i2c-bus">I2C bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#i2s-bus">I2S bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#can-bus-controller-area-network">CAN bus (controller area network)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#internal-accelerometer">Internal accelerometer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp8266/quickref.html">Quick reference for the ESP8266</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wipy/quickref.html">Quick reference for the WiPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zephyr/quickref.html">Quick reference for the Zephyr port</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../quickref.html">Quick reference for the pyboard</a> &raquo;</li>
+          <li><a href="index.html">MicroPython tutorial for the pyboard</a> &raquo;</li>
+      <li><span class="section-number">4. </span>Turning on LEDs and basic Python concepts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/pyboard/tutorial/leds.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="turning-on-leds-and-basic-python-concepts">
+<h1><span class="section-number">4. </span>Turning on LEDs and basic Python concepts<a class="headerlink" href="#turning-on-leds-and-basic-python-concepts" title="Permalink to this headline">¶</a></h1>
+<p>The easiest thing to do on the pyboard is to turn on the LEDs attached to the board. Connect the board, and log in as described in tutorial 1. We will start by turning and LED on in the interpreter, type the following</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">myled</span> <span class="o">=</span> <span class="n">pyb</span><span class="o">.</span><span class="n">LED</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myled</span><span class="o">.</span><span class="n">on</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myled</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>These commands turn the LED on and off.</p>
+<p>This is all very well but we would like this process to be automated. Open the file MAIN.PY on the pyboard in your favourite text editor. Write or paste the following lines into the file. If you are new to python, then make sure you get the indentation correct since this matters!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">led</span> <span class="o">=</span> <span class="n">pyb</span><span class="o">.</span><span class="n">LED</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">led</span><span class="o">.</span><span class="n">toggle</span><span class="p">()</span>
+    <span class="n">pyb</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When you save, the red light on the pyboard should turn on for about a second. To run the script, do a soft reset (CTRL-D). The pyboard will then restart and you should see a green light continuously flashing on and off. Success, the first step on your path to building an army of evil robots! When you are bored of the annoying flashing light then press CTRL-C at your terminal to stop it running.</p>
+<p>So what does this code do? First we need some terminology. Python is an object-oriented language, almost everything in python is a <em>class</em> and when you create an instance of a class you get an <em>object</em>. Classes have <em>methods</em> associated to them. A method (also called a member function) is used to interact with or control the object.</p>
+<p>The first line of code creates an LED object which we have then called led. When we create the object, it takes a single parameter which must be between 1 and 4, corresponding to the 4 LEDs on the board. The pyb.LED class has three important member functions that we will use: on(), off() and toggle(). The other function that we use is pyb.delay() this simply waits for a given time in milliseconds. Once we have created the LED object, the statement while True: creates an infinite loop which toggles the led between on and off and waits for 1 second.</p>
+<p><strong>Exercise: Try changing the time between toggling the led and turning on a different LED.</strong></p>
+<p><strong>Exercise: Connect to the pyboard directly, create a pyb.LED object and turn it on using the on() method.</strong></p>
+<section id="a-disco-on-your-pyboard">
+<h2><span class="section-number">4.1. </span>A Disco on your pyboard<a class="headerlink" href="#a-disco-on-your-pyboard" title="Permalink to this headline">¶</a></h2>
+<p>So far we have only used a single LED but the pyboard has 4 available. Let’s start by creating an object for each LED so we can control each of them. We do that by creating a list of LEDS with a list comprehension.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">leds</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyb</span><span class="o">.</span><span class="n">LED</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>If you call pyb.LED() with a number that isn’t 1,2,3,4 you will get an error message.
+Next we will set up an infinite loop that cycles through each of the LEDs turning them on and off.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span>
+  <span class="n">leds</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">toggle</span><span class="p">()</span>
+  <span class="n">pyb</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, n keeps track of the current LED and every time the loop is executed we cycle to the next n (the % sign is a modulus operator that keeps n between 0 and 3.) Then we access the nth LED and toggle it. If you run this you should see each of the LEDs turning on then all turning off again in sequence.</p>
+<p>One problem you might find is that if you stop the script and then start it again that the LEDs are stuck on from the previous run, ruining our carefully choreographed disco. We can fix this by turning all the LEDs off when we initialise the script and then using a try/finally block. When you press CTRL-C, MicroPython generates a VCPInterrupt exception. Exceptions normally mean something has gone wrong and you can use a try: command to “catch” an exception. In this case it is just the user interrupting the script, so we don’t need to catch the error but just tell MicroPython what to do when we exit. The finally block does this, and we use it to make sure all the LEDs are off. The full code is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">leds</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyb</span><span class="o">.</span><span class="n">LED</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)]</span>
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">leds</span><span class="p">:</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">try</span><span class="p">:</span>
+   <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+      <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span>
+      <span class="n">leds</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">toggle</span><span class="p">()</span>
+      <span class="n">pyb</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">leds</span><span class="p">:</span>
+        <span class="n">l</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="the-special-leds">
+<h2><span class="section-number">4.2. </span>The Special LEDs<a class="headerlink" href="#the-special-leds" title="Permalink to this headline">¶</a></h2>
+<p>The yellow and blue LEDs are special. As well as turning them on and off, you can control their intensity using the intensity() method. This takes a number between 0 and 255 that determines how bright it is. The following script makes the blue LED gradually brighter then turns it off again.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">led</span> <span class="o">=</span> <span class="n">pyb</span><span class="o">.</span><span class="n">LED</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">intensity</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">intensity</span> <span class="o">=</span> <span class="p">(</span><span class="n">intensity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">255</span>
+    <span class="n">led</span><span class="o">.</span><span class="n">intensity</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+    <span class="n">pyb</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can call intensity() on LEDs 1 and 2 but they can only be off or on. 0 sets them off and any other number up to 255 turns them on.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="repl.html" class="btn btn-neutral float-left" title="3. Getting a MicroPython REPL prompt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="switch.html" class="btn btn-neutral float-right" title="5. Switches, callbacks and interrupts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

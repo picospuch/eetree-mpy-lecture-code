@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5. Hardware timers &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6. Reset and boot modes" href="reset.html" />
+    <link rel="prev" title="4. WLAN step by step" href="wlan.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../library/index.html">MicroPython libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">MicroPython license information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyboard/quickref.html">Quick reference for the pyboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp8266/quickref.html">Quick reference for the ESP8266</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickref.html">Quick reference for the WiPy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general.html">General information about the WiPy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">WiPy tutorials and examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="intro.html">1. Introduction to the WiPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="repl.html">2. Getting a MicroPython REPL prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blynk.html">3. Getting started with Blynk and the WiPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wlan.html">4. WLAN step by step</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5. Hardware timers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#additional-constants-for-timer-class">5.1. Additional constants for Timer class</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reset.html">6. Reset and boot modes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#general-board-control-including-sleep-modes">General board control (including sleep modes)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pins-and-gpio">Pins and GPIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#timers">Timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pwm-pulse-width-modulation">PWM (pulse width modulation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#adc-analog-to-digital-conversion">ADC (analog to digital conversion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#uart-serial-bus">UART (serial bus)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#spi-bus">SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#i2c-bus">I2C bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#watchdog-timer-wdt">Watchdog timer (WDT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#real-time-clock-rtc">Real time clock (RTC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#sd-card">SD card</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#wlan-wifi">WLAN (WiFi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#telnet-and-ftp-server">Telnet and FTP server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#heart-beat-led">Heart beat LED</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zephyr/quickref.html">Quick reference for the Zephyr port</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../quickref.html">Quick reference for the WiPy</a> &raquo;</li>
+          <li><a href="index.html">WiPy tutorials and examples</a> &raquo;</li>
+      <li><span class="section-number">5. </span>Hardware timers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/wipy/tutorial/timer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hardware-timers">
+<h1><span class="section-number">5. </span>Hardware timers<a class="headerlink" href="#hardware-timers" title="Permalink to this headline">¶</a></h1>
+<p>Timers can be used for a great variety of tasks, calling a function periodically,
+counting events, and generating a PWM signal are among the most common use cases.
+Each timer consists of two 16-bit channels and this channels can be tied together to
+form one 32-bit timer. The operating mode needs to be configured per timer, but then
+the period (or the frequency) can be independently configured on each channel.
+By using the callback method, the timer event can call a Python function.</p>
+<p>Example usage to toggle an LED at a fixed frequency:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Timer</span>
+<span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span>
+<span class="n">led</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s1">&#39;GP16&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">Pin</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>                  <span class="c1"># enable GP16 as output to drive the LED</span>
+<span class="n">tim</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>                                   <span class="c1"># create a timer object using timer 3</span>
+<span class="n">tim</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">Timer</span><span class="o">.</span><span class="n">PERIODIC</span><span class="p">)</span>                    <span class="c1"># initialize it in periodic mode</span>
+<span class="n">tim_ch</span> <span class="o">=</span> <span class="n">tim</span><span class="o">.</span><span class="n">channel</span><span class="p">(</span><span class="n">Timer</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>            <span class="c1"># configure channel A at a frequency of 5Hz</span>
+<span class="n">tim_ch</span><span class="o">.</span><span class="n">irq</span><span class="p">(</span><span class="n">handler</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span><span class="n">led</span><span class="o">.</span><span class="n">toggle</span><span class="p">(),</span> <span class="n">trigger</span><span class="o">=</span><span class="n">Timer</span><span class="o">.</span><span class="n">TIMEOUT</span><span class="p">)</span>        <span class="c1"># toggle a LED on every cycle of the timer</span>
+</pre></div>
+</div>
+<p>Example using named function for the callback:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Timer</span>
+<span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span>
+<span class="n">tim</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">Timer</span><span class="o">.</span><span class="n">PERIODIC</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">tim_a</span> <span class="o">=</span> <span class="n">tim</span><span class="o">.</span><span class="n">channel</span><span class="p">(</span><span class="n">Timer</span><span class="o">.</span><span class="n">A</span> <span class="o">|</span> <span class="n">Timer</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># 1 Hz frequency requires a 32 bit timer</span>
+
+<span class="n">led</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s1">&#39;GP16&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">Pin</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span> <span class="c1"># enable GP16 as output to drive the LED</span>
+
+<span class="k">def</span> <span class="nf">tick</span><span class="p">(</span><span class="n">timer</span><span class="p">):</span>                <span class="c1"># we will receive the timer object when being called</span>
+    <span class="k">global</span> <span class="n">led</span>
+    <span class="n">led</span><span class="o">.</span><span class="n">toggle</span><span class="p">()</span>                <span class="c1"># toggle the LED</span>
+
+<span class="n">tim_a</span><span class="o">.</span><span class="n">irq</span><span class="p">(</span><span class="n">handler</span><span class="o">=</span><span class="n">tick</span><span class="p">,</span> <span class="n">trigger</span><span class="o">=</span><span class="n">Timer</span><span class="o">.</span><span class="n">TIMEOUT</span><span class="p">)</span>         <span class="c1"># create the interrupt</span>
+</pre></div>
+</div>
+<p>Further examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Timer</span>
+<span class="n">tim1</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">Timer</span><span class="o">.</span><span class="n">ONE_SHOT</span><span class="p">)</span>                               <span class="c1"># initialize it in one shot mode</span>
+<span class="n">tim2</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">Timer</span><span class="o">.</span><span class="n">PWM</span><span class="p">)</span>                                    <span class="c1"># initialize it in PWM mode</span>
+<span class="n">tim1_ch</span> <span class="o">=</span> <span class="n">tim1</span><span class="o">.</span><span class="n">channel</span><span class="p">(</span><span class="n">Timer</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">polarity</span><span class="o">=</span><span class="n">Timer</span><span class="o">.</span><span class="n">POSITIVE</span><span class="p">)</span>  <span class="c1"># start the event counter with a frequency of 10Hz and triggered by positive edges</span>
+<span class="n">tim2_ch</span> <span class="o">=</span> <span class="n">tim2</span><span class="o">.</span><span class="n">channel</span><span class="p">(</span><span class="n">Timer</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">duty_cycle</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>       <span class="c1"># start the PWM on channel B with a 50% duty cycle</span>
+<span class="n">tim2_ch</span><span class="o">.</span><span class="n">freq</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>                                                   <span class="c1"># set the frequency (can also get)</span>
+<span class="n">tim2_ch</span><span class="o">.</span><span class="n">duty_cycle</span><span class="p">(</span><span class="mi">3010</span><span class="p">)</span>                                           <span class="c1"># set the duty cycle to 30.1% (can also get)</span>
+<span class="n">tim2_ch</span><span class="o">.</span><span class="n">duty_cycle</span><span class="p">(</span><span class="mi">3020</span><span class="p">,</span> <span class="n">Timer</span><span class="o">.</span><span class="n">NEGATIVE</span><span class="p">)</span>                           <span class="c1"># set the duty cycle to 30.2% and change the polarity to negative</span>
+<span class="n">tim2_ch</span><span class="o">.</span><span class="n">period</span><span class="p">(</span><span class="mi">2000000</span><span class="p">)</span>                                            <span class="c1"># change the period to 2 seconds</span>
+</pre></div>
+</div>
+<section id="additional-constants-for-timer-class">
+<h2><span class="section-number">5.1. </span>Additional constants for Timer class<a class="headerlink" href="#additional-constants-for-timer-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="Timer.PWM">
+<span class="sig-prename descclassname"><span class="pre">Timer.</span></span><span class="sig-name descname"><span class="pre">PWM</span></span><a class="headerlink" href="#Timer.PWM" title="Permalink to this definition">¶</a></dt>
+<dd><p>PWM timer operating mode.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Timer.A">
+<span class="sig-prename descclassname"><span class="pre">Timer.</span></span><span class="sig-name descname"><span class="pre">A</span></span><a class="headerlink" href="#Timer.A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Timer.B">
+<span class="sig-prename descclassname"><span class="pre">Timer.</span></span><span class="sig-name descname"><span class="pre">B</span></span><a class="headerlink" href="#Timer.B" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selects the timer channel. Must be ORed (<code class="docutils literal notranslate"><span class="pre">Timer.A</span></code> | <code class="docutils literal notranslate"><span class="pre">Timer.B</span></code>) when
+using a 32-bit timer.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Timer.POSITIVE">
+<span class="sig-prename descclassname"><span class="pre">Timer.</span></span><span class="sig-name descname"><span class="pre">POSITIVE</span></span><a class="headerlink" href="#Timer.POSITIVE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Timer.NEGATIVE">
+<span class="sig-prename descclassname"><span class="pre">Timer.</span></span><span class="sig-name descname"><span class="pre">NEGATIVE</span></span><a class="headerlink" href="#Timer.NEGATIVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Timer channel polarity selection (only relevant in PWM mode).</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Timer.TIMEOUT">
+<span class="sig-prename descclassname"><span class="pre">Timer.</span></span><span class="sig-name descname"><span class="pre">TIMEOUT</span></span><a class="headerlink" href="#Timer.TIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Timer.MATCH">
+<span class="sig-prename descclassname"><span class="pre">Timer.</span></span><span class="sig-name descname"><span class="pre">MATCH</span></span><a class="headerlink" href="#Timer.MATCH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Timer channel IRQ triggers.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="wlan.html" class="btn btn-neutral float-left" title="4. WLAN step by step" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reset.html" class="btn btn-neutral float-right" title="6. Reset and boot modes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

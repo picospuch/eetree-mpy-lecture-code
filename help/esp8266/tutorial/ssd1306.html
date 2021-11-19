@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>14. Using a SSD1306 OLED display &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="15. Next steps" href="nextsteps.html" />
+    <link rel="prev" title="13. Temperature and Humidity" href="dht.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../library/index.html">MicroPython libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">MicroPython license information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyboard/quickref.html">Quick reference for the pyboard</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickref.html">Quick reference for the ESP8266</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general.html">General information about the ESP8266 port</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">MicroPython tutorial for ESP8266</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="intro.html">1. Getting started with MicroPython on the ESP8266</a></li>
+<li class="toctree-l3"><a class="reference internal" href="repl.html">2. Getting a MicroPython REPL prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filesystem.html">3. The internal filesystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="network_basics.html">4. Network basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="network_tcp.html">5. Network - TCP sockets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pins.html">6. GPIO Pins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pwm.html">7. Pulse Width Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html">8. Analog to Digital Conversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="powerctrl.html">9. Power control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="onewire.html">10. Controlling 1-wire devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neopixel.html">11. Controlling NeoPixels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apa102.html">12. Controlling APA102 LEDs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dht.html">13. Temperature and Humidity</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">14. Using a SSD1306 OLED display</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nextsteps.html">15. Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#installing-micropython">Installing MicroPython</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#general-board-control">General board control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#networking">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#delay-and-timing">Delay and timing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#timers">Timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pins-and-gpio">Pins and GPIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#uart-serial-bus">UART (serial bus)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pwm-pulse-width-modulation">PWM (pulse width modulation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#adc-analog-to-digital-conversion">ADC (analog to digital conversion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#software-spi-bus">Software SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#hardware-spi-bus">Hardware SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#i2c-bus">I2C bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#real-time-clock-rtc">Real time clock (RTC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#wdt-watchdog-timer">WDT (Watchdog timer)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#deep-sleep-mode">Deep-sleep mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#onewire-driver">OneWire driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#neopixel-driver">NeoPixel driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#apa102-driver">APA102 driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#dht-driver">DHT driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#ssd1306-driver">SSD1306 driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#webrepl-web-browser-interactive-prompt">WebREPL (web browser interactive prompt)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wipy/quickref.html">Quick reference for the WiPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zephyr/quickref.html">Quick reference for the Zephyr port</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../quickref.html">Quick reference for the ESP8266</a> &raquo;</li>
+          <li><a href="index.html">MicroPython tutorial for ESP8266</a> &raquo;</li>
+      <li><span class="section-number">14. </span>Using a SSD1306 OLED display</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/esp8266/tutorial/ssd1306.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="using-a-ssd1306-oled-display">
+<span id="ssd1306"></span><h1><span class="section-number">14. </span>Using a SSD1306 OLED display<a class="headerlink" href="#using-a-ssd1306-oled-display" title="Permalink to this headline">¶</a></h1>
+<p>The SSD1306 OLED display uses either a SPI or I2C interface and comes in a variety of
+sizes (128x64, 128x32, 72x40, 64x48) and colours (white, yellow, blue, yellow + blue).</p>
+<p>Hardware SPI interface:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span><span class="p">,</span> <span class="n">SPI</span>
+<span class="kn">import</span> <span class="nn">ssd1306</span>
+
+<span class="n">hspi</span> <span class="o">=</span> <span class="n">SPI</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># sck=14 (scl), mosi=13 (sda), miso=12 (unused)</span>
+
+<span class="n">dc</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>    <span class="c1"># data/command</span>
+<span class="n">rst</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>   <span class="c1"># reset</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>   <span class="c1"># chip select, some modules do not have a pin for this</span>
+
+<span class="n">display</span> <span class="o">=</span> <span class="n">ssd1306</span><span class="o">.</span><span class="n">SSD1306_SPI</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">hspi</span><span class="p">,</span> <span class="n">dc</span><span class="p">,</span> <span class="n">rst</span><span class="p">,</span> <span class="n">cs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Software SPI interface:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span><span class="p">,</span> <span class="n">SoftSPI</span>
+<span class="kn">import</span> <span class="nn">ssd1306</span>
+
+<span class="n">spi</span> <span class="o">=</span> <span class="n">SoftSPI</span><span class="p">(</span><span class="n">baudrate</span><span class="o">=</span><span class="mi">500000</span><span class="p">,</span> <span class="n">polarity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sck</span><span class="o">=</span><span class="n">Pin</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">mosi</span><span class="o">=</span><span class="n">Pin</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span> <span class="n">miso</span><span class="o">=</span><span class="n">Pin</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+
+<span class="n">dc</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>   <span class="c1"># data/command</span>
+<span class="n">rst</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># reset</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>  <span class="c1"># chip select, some modules do not have a pin for this</span>
+
+<span class="n">display</span> <span class="o">=</span> <span class="n">ssd1306</span><span class="o">.</span><span class="n">SSD1306_SPI</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">spi</span><span class="p">,</span> <span class="n">dc</span><span class="p">,</span> <span class="n">rst</span><span class="p">,</span> <span class="n">cs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>I2C interface:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span><span class="p">,</span> <span class="n">I2C</span>
+<span class="kn">import</span> <span class="nn">ssd1306</span>
+
+<span class="c1"># using default address 0x3C</span>
+<span class="n">i2c</span> <span class="o">=</span> <span class="n">I2C</span><span class="p">(</span><span class="n">sda</span><span class="o">=</span><span class="n">Pin</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">scl</span><span class="o">=</span><span class="n">Pin</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">display</span> <span class="o">=</span> <span class="n">ssd1306</span><span class="o">.</span><span class="n">SSD1306_I2C</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">i2c</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Print Hello World on the first line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;Hello, World!&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Basic functions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="o">.</span><span class="n">poweroff</span><span class="p">()</span>     <span class="c1"># power off the display, pixels persist in memory</span>
+<span class="n">display</span><span class="o">.</span><span class="n">poweron</span><span class="p">()</span>      <span class="c1"># power on the display, pixels redrawn</span>
+<span class="n">display</span><span class="o">.</span><span class="n">contrast</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>    <span class="c1"># dim</span>
+<span class="n">display</span><span class="o">.</span><span class="n">contrast</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span>  <span class="c1"># bright</span>
+<span class="n">display</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>      <span class="c1"># display inverted</span>
+<span class="n">display</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>      <span class="c1"># display normal</span>
+<span class="n">display</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># rotate 180 degrees</span>
+<span class="n">display</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># rotate 0 degrees</span>
+<span class="n">display</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>         <span class="c1"># write the contents of the FrameBuffer to display memory</span>
+</pre></div>
+</div>
+<p>Subclassing FrameBuffer provides support for graphics primitives:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                         <span class="c1"># fill entire screen with colour=0</span>
+<span class="n">display</span><span class="o">.</span><span class="n">pixel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>                    <span class="c1"># get pixel at x=0, y=10</span>
+<span class="n">display</span><span class="o">.</span><span class="n">pixel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                 <span class="c1"># set pixel at x=0, y=10 to colour=1</span>
+<span class="n">display</span><span class="o">.</span><span class="n">hline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>               <span class="c1"># draw horizontal line x=0, y=8, width=4, colour=1</span>
+<span class="n">display</span><span class="o">.</span><span class="n">vline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>               <span class="c1"># draw vertical line x=0, y=8, height=4, colour=1</span>
+<span class="n">display</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>          <span class="c1"># draw a line from 0,0 to 127,63</span>
+<span class="n">display</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">107</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>        <span class="c1"># draw a rectangle outline 10,10 to 107,43, colour=1</span>
+<span class="n">display</span><span class="o">.</span><span class="n">fill_rect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">107</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>   <span class="c1"># draw a solid rectangle 10,10 to 107,43, colour=1</span>
+<span class="n">display</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;Hello World&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>    <span class="c1"># draw some text at x=0, y=0, colour=1</span>
+<span class="n">display</span><span class="o">.</span><span class="n">scroll</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>                   <span class="c1"># scroll 20 pixels to the right</span>
+
+<span class="c1"># draw another FrameBuffer on top of the current one at the given coordinates</span>
+<span class="kn">import</span> <span class="nn">framebuf</span>
+<span class="n">fbuf</span> <span class="o">=</span> <span class="n">framebuf</span><span class="o">.</span><span class="n">FrameBuffer</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">*</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">framebuf</span><span class="o">.</span><span class="n">MONO_VLSB</span><span class="p">)</span>
+<span class="n">fbuf</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">fbuf</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>           <span class="c1"># draw on top at x=10, y=10, key=0</span>
+<span class="n">display</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Draw the MicroPython logo and print some text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">fill_rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">fill_rect</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">vline</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">vline</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">vline</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">fill_rect</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;MicroPython&#39;</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;SSD1306&#39;</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;OLED 128x64&#39;</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dht.html" class="btn btn-neutral float-left" title="13. Temperature and Humidity" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nextsteps.html" class="btn btn-neutral float-right" title="15. Next steps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

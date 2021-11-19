@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6. Reset and boot modes &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Quick reference for the UNIX and Windows ports" href="../../unix/quickref.html" />
+    <link rel="prev" title="5. Hardware timers" href="timer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../library/index.html">MicroPython libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">MicroPython license information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyboard/quickref.html">Quick reference for the pyboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp8266/quickref.html">Quick reference for the ESP8266</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickref.html">Quick reference for the WiPy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general.html">General information about the WiPy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">WiPy tutorials and examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="intro.html">1. Introduction to the WiPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="repl.html">2. Getting a MicroPython REPL prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blynk.html">3. Getting started with Blynk and the WiPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wlan.html">4. WLAN step by step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">5. Hardware timers</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">6. Reset and boot modes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#safe-boot">6.1. Safe boot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#factory-reset-the-filesystem">6.2. Factory reset the filesystem</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#general-board-control-including-sleep-modes">General board control (including sleep modes)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pins-and-gpio">Pins and GPIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#timers">Timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pwm-pulse-width-modulation">PWM (pulse width modulation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#adc-analog-to-digital-conversion">ADC (analog to digital conversion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#uart-serial-bus">UART (serial bus)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#spi-bus">SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#i2c-bus">I2C bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#watchdog-timer-wdt">Watchdog timer (WDT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#real-time-clock-rtc">Real time clock (RTC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#sd-card">SD card</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#wlan-wifi">WLAN (WiFi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#telnet-and-ftp-server">Telnet and FTP server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#heart-beat-led">Heart beat LED</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zephyr/quickref.html">Quick reference for the Zephyr port</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../quickref.html">Quick reference for the WiPy</a> &raquo;</li>
+          <li><a href="index.html">WiPy tutorials and examples</a> &raquo;</li>
+      <li><span class="section-number">6. </span>Reset and boot modes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/wipy/tutorial/reset.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="reset-and-boot-modes">
+<h1><span class="section-number">6. </span>Reset and boot modes<a class="headerlink" href="#reset-and-boot-modes" title="Permalink to this headline">¶</a></h1>
+<p>There are soft resets and hard resets.</p>
+<blockquote>
+<div><ul>
+<li><p>A soft reset simply clears the state of the MicroPython virtual machine,
+but leaves hardware peripherals unaffected. To do a soft reset, simply press
+<strong>Ctrl+D</strong> on the REPL, or within a script do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p>A hard reset is the same as performing a power cycle to the board. In order to
+hard reset the WiPy, press the switch on the board or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">machine</span>
+<span class="n">machine</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<section id="safe-boot">
+<h2><span class="section-number">6.1. </span>Safe boot<a class="headerlink" href="#safe-boot" title="Permalink to this headline">¶</a></h2>
+<p>If something goes wrong with your WiPy, don’t panic!  It is almost
+impossible for you to break the WiPy by programming the wrong thing.</p>
+<p>The first thing to try is to boot in safe mode: this temporarily skips
+execution of <code class="docutils literal notranslate"><span class="pre">boot.py</span></code> and <code class="docutils literal notranslate"><span class="pre">main.py</span></code> and gives default WLAN settings.</p>
+<p>If you have problems with the filesystem you can <a class="reference internal" href="#wipy-factory-reset"><span class="std std-ref">format the internal flash
+drive</span></a>.</p>
+<p>To boot in safe mode, follow the detailed instructions described <a class="reference internal" href="../general.html#wipy-boot-modes"><span class="std std-ref">here</span></a>.</p>
+<p>In safe mode, the <code class="docutils literal notranslate"><span class="pre">boot.py</span></code> and <code class="docutils literal notranslate"><span class="pre">main.py</span></code> files are not executed, and so
+the WiPy boots up with default settings.  This means you now have access
+to the filesystem, and you can edit <code class="docutils literal notranslate"><span class="pre">boot.py</span></code> and <code class="docutils literal notranslate"><span class="pre">main.py</span></code> to fix any problems.</p>
+<p>Entering safe mode is temporary, and does not make any changes to the
+files on the WiPy.</p>
+</section>
+<section id="factory-reset-the-filesystem">
+<span id="wipy-factory-reset"></span><h2><span class="section-number">6.2. </span>Factory reset the filesystem<a class="headerlink" href="#factory-reset-the-filesystem" title="Permalink to this headline">¶</a></h2>
+<p>If you WiPy’s filesystem gets corrupted (very unlikely, but possible), you
+can format it very easily by doing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">mkfs</span><span class="p">(</span><span class="s1">&#39;/flash&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Resetting the filesystem deletes all files on the internal WiPy storage
+(not the SD card), and restores the files <code class="docutils literal notranslate"><span class="pre">boot.py</span></code> and <code class="docutils literal notranslate"><span class="pre">main.py</span></code> back
+to their original state after the next reset.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="timer.html" class="btn btn-neutral float-left" title="5. Hardware timers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../unix/quickref.html" class="btn btn-neutral float-right" title="Quick reference for the UNIX and Windows ports" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

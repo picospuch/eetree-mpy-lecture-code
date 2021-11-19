@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>class Servo – 3-wire hobby servo driver &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="class SPI – a controller-driven serial protocol" href="pyb.SPI.html" />
+    <link rel="prev" title="class RTC – real time clock" href="pyb.RTC.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">MicroPython libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#python-standard-libraries-and-micro-libraries">Python standard libraries and micro-libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#micropython-specific-libraries">MicroPython-specific libraries</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#port-specific-libraries">Port-specific libraries</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#libraries-specific-to-the-pyboard">Libraries specific to the pyboard</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="pyb.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyb</span></code> — functions related to the board</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lcd160cr.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">lcd160cr</span></code> — control of LCD160CR display</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#libraries-specific-to-the-wipy">Libraries specific to the WiPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#libraries-specific-to-the-esp8266-and-esp32">Libraries specific to the ESP8266 and ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#libraries-specific-to-the-rp2040">Libraries specific to the RP2040</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#libraries-specific-to-zephyr">Libraries specific to Zephyr</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#extending-built-in-libraries-from-python">Extending built-in libraries from Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">MicroPython license information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyboard/quickref.html">Quick reference for the pyboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp8266/quickref.html">Quick reference for the ESP8266</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wipy/quickref.html">Quick reference for the WiPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zephyr/quickref.html">Quick reference for the Zephyr port</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">MicroPython libraries</a> &raquo;</li>
+          <li><a href="pyb.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyb</span></code> — functions related to the board</a> &raquo;</li>
+      <li>class Servo – 3-wire hobby servo driver</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/library/pyb.Servo.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-servo-3-wire-hobby-servo-driver">
+<span id="pyb-servo"></span><h1>class Servo – 3-wire hobby servo driver<a class="headerlink" href="#class-servo-3-wire-hobby-servo-driver" title="Permalink to this headline">¶</a></h1>
+<p>Servo objects control standard hobby servo motors with 3-wires (ground, power,
+signal).  There are 4 positions on the pyboard where these motors can be plugged
+in: pins X1 through X4 are the signal pins, and next to them are 4 sets of power
+and ground pins.</p>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyb</span>
+
+<span class="n">s1</span> <span class="o">=</span> <span class="n">pyb</span><span class="o">.</span><span class="n">Servo</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># create a servo object on position X1</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">pyb</span><span class="o">.</span><span class="n">Servo</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>   <span class="c1"># create a servo object on position X2</span>
+
+<span class="n">s1</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>        <span class="c1"># move servo 1 to 45 degrees</span>
+<span class="n">s2</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>         <span class="c1"># move servo 2 to 0 degrees</span>
+
+<span class="c1"># move servo1 and servo2 synchronously, taking 1500ms</span>
+<span class="n">s1</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="mi">1500</span><span class="p">)</span>
+<span class="n">s2</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">1500</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Servo objects use Timer(5) to produce the PWM output.  You can
+use Timer(5) for Servo control, or your own purposes, but not both at the
+same time.</p>
+</div>
+<section id="constructors">
+<h2>Constructors<a class="headerlink" href="#constructors" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyb.pyb.Servo">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyb.</span></span><span class="sig-name descname"><span class="pre">Servo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyb.pyb.Servo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a servo object.  <code class="docutils literal notranslate"><span class="pre">id</span></code> is 1-4, and corresponds to pins X1 through X4.</p>
+</dd></dl>
+
+</section>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyb.Servo.angle">
+<span class="sig-prename descclassname"><span class="pre">Servo.</span></span><span class="sig-name descname"><span class="pre">angle</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="pre">angle</span></em>, <em class="sig-param"><span class="pre">time=0</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyb.Servo.angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>If no arguments are given, this function returns the current angle.</p>
+<p>If arguments are given, this function sets the angle of the servo:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">angle</span></code> is the angle to move to in degrees.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> is the number of milliseconds to take to get to the specified
+angle.  If omitted, then the servo moves as quickly as possible to its
+new position.</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyb.Servo.speed">
+<span class="sig-prename descclassname"><span class="pre">Servo.</span></span><span class="sig-name descname"><span class="pre">speed</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="pre">speed</span></em>, <em class="sig-param"><span class="pre">time=0</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyb.Servo.speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>If no arguments are given, this function returns the current speed.</p>
+<p>If arguments are given, this function sets the speed of the servo:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">speed</span></code> is the speed to change to, between -100 and 100.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> is the number of milliseconds to take to get to the specified
+speed.  If omitted, then the servo accelerates as quickly as possible.</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyb.Servo.pulse_width">
+<span class="sig-prename descclassname"><span class="pre">Servo.</span></span><span class="sig-name descname"><span class="pre">pulse_width</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="pre">value</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyb.Servo.pulse_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>If no arguments are given, this function returns the current raw pulse-width
+value.</p>
+<p>If an argument is given, this function sets the raw pulse-width value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyb.Servo.calibration">
+<span class="sig-prename descclassname"><span class="pre">Servo.</span></span><span class="sig-name descname"><span class="pre">calibration</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="pre">pulse_min</span></em>, <em class="sig-param"><span class="pre">pulse_max</span></em>, <em class="sig-param"><span class="pre">pulse_centre</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">pulse_angle_90</span></em>, <em class="sig-param"><span class="pre">pulse_speed_100</span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyb.Servo.calibration" title="Permalink to this definition">¶</a></dt>
+<dd><p>If no arguments are given, this function returns the current calibration
+data, as a 5-tuple.</p>
+<p>If arguments are given, this function sets the timing calibration:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pulse_min</span></code> is the minimum allowed pulse width.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pulse_max</span></code> is the maximum allowed pulse width.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pulse_centre</span></code> is the pulse width corresponding to the centre/zero position.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pulse_angle_90</span></code> is the pulse width corresponding to 90 degrees.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pulse_speed_100</span></code> is the pulse width corresponding to a speed of 100.</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyb.RTC.html" class="btn btn-neutral float-left" title="class RTC – real time clock" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyb.SPI.html" class="btn btn-neutral float-right" title="class SPI – a controller-driven serial protocol" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

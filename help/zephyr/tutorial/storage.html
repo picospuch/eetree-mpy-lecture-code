@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. Filesystems and Storage &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="4. GPIO Pins" href="pins.html" />
+    <link rel="prev" title="2. Getting a MicroPython REPL prompt" href="repl.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../library/index.html">MicroPython libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">MicroPython license information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyboard/quickref.html">Quick reference for the pyboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp8266/quickref.html">Quick reference for the ESP8266</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wipy/quickref.html">Quick reference for the WiPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickref.html">Quick reference for the Zephyr port</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general.html">General information about the Zephyr port</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">MicroPython tutorial for the Zephyr port</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="intro.html">1. Getting started with MicroPython on the Zephyr port</a></li>
+<li class="toctree-l3"><a class="reference internal" href="repl.html">2. Getting a MicroPython REPL prompt</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">3. Filesystems and Storage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#disk-access">3.1. Disk Access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flash-area">3.2. Flash Area</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pins.html">4. GPIO Pins</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#running-micropython">Running MicroPython</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#delay-and-timing">Delay and timing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pins-and-gpio">Pins and GPIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#hardware-i2c-bus">Hardware I2C bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#hardware-spi-bus">Hardware SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#disk-access">Disk Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#flash-area">Flash Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#sensor">Sensor</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../quickref.html">Quick reference for the Zephyr port</a> &raquo;</li>
+          <li><a href="index.html">MicroPython tutorial for the Zephyr port</a> &raquo;</li>
+      <li><span class="section-number">3. </span>Filesystems and Storage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/zephyr/tutorial/storage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="filesystems-and-storage">
+<span id="storage-zephyr"></span><h1><span class="section-number">3. </span>Filesystems and Storage<a class="headerlink" href="#filesystems-and-storage" title="Permalink to this headline">¶</a></h1>
+<p>Storage modules support virtual filesystem with FAT and littlefs formats, backed by either
+Zephyr DiskAccess or FlashArea (flash map) APIs depending on which the board supports.</p>
+<p>See <a class="reference external" href="https://docs.micropython.org/en/latest/library/os.html?highlight=os#filesystem-mounting">os Filesystem Mounting</a>.</p>
+<section id="disk-access">
+<h2><span class="section-number">3.1. </span>Disk Access<a class="headerlink" href="#disk-access" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../../library/zephyr.DiskAccess.html#zephyr-diskaccess"><span class="std std-ref">zephyr.DiskAccess</span></a> class can be used to access storage devices, such as SD cards.
+This class uses <a class="reference external" href="https://docs.zephyrproject.org/latest/reference/storage/disk/access.html">Zephyr Disk Access API</a> and
+implements the <a class="reference internal" href="../../library/os.html#os.AbstractBlockDev" title="os.AbstractBlockDev"><code class="xref any py py-class docutils literal notranslate"><span class="pre">os.AbstractBlockDev</span></code></a> protocol.</p>
+<p>For use with SD card controllers, SD cards must be present at boot &amp; not removed; they will
+be auto detected and initialized by filesystem at boot. Use the disk driver interface and a
+file system to access SD cards via disk access (see below).</p>
+<p>Example usage of FatFS with an SD card on the mimxrt1050_evk board:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">zephyr</span> <span class="kn">import</span> <span class="n">DiskAccess</span>
+<span class="n">bdev</span> <span class="o">=</span> <span class="n">zephyr</span><span class="o">.</span><span class="n">DiskAccess</span><span class="p">(</span><span class="s1">&#39;SDHC&#39;</span><span class="p">)</span>        <span class="c1"># create block device object using DiskAccess</span>
+<span class="n">os</span><span class="o">.</span><span class="n">VfsFat</span><span class="o">.</span><span class="n">mkfs</span><span class="p">(</span><span class="n">bdev</span><span class="p">)</span>                    <span class="c1"># create FAT filesystem object using the disk storage block</span>
+<span class="n">os</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="n">bdev</span><span class="p">,</span> <span class="s1">&#39;/sd&#39;</span><span class="p">)</span>                   <span class="c1"># mount the filesystem at the SD card subdirectory</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/sd/hello.txt&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>    <span class="c1"># open a new file in the directory</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>              <span class="c1"># write to the file</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/sd/hello.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>     <span class="c1"># print contents of the file</span>
+</pre></div>
+</div>
+</section>
+<section id="flash-area">
+<h2><span class="section-number">3.2. </span>Flash Area<a class="headerlink" href="#flash-area" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../../library/zephyr.FlashArea.html#zephyr-flasharea"><span class="std std-ref">zephyr.FlashArea</span></a> class can be used to implement a low-level storage system or
+customize filesystem configurations. To store persistent data on the device, using a higher-level filesystem
+API is recommended (see below).</p>
+<p>This class uses <a class="reference external" href="https://docs.zephyrproject.org/latest/reference/storage/flash_map/flash_map.html#">Zephyr Flash map API</a> and
+implements the <a class="reference internal" href="../../library/os.html#os.AbstractBlockDev" title="os.AbstractBlockDev"><code class="xref any py py-class docutils literal notranslate"><span class="pre">os.AbstractBlockDev</span></code></a> protocol.</p>
+<p>Example usage with the internal flash on the reel_board or the rv32m1_vega_ri5cy board:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">zephyr</span> <span class="kn">import</span> <span class="n">FlashArea</span>
+<span class="n">bdev</span> <span class="o">=</span> <span class="n">FlashArea</span><span class="p">(</span><span class="n">FlashArea</span><span class="o">.</span><span class="n">STORAGE</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>   <span class="c1"># create block device object using FlashArea</span>
+<span class="n">os</span><span class="o">.</span><span class="n">VfsLfs2</span><span class="o">.</span><span class="n">mkfs</span><span class="p">(</span><span class="n">bdev</span><span class="p">)</span>                       <span class="c1"># create Little filesystem object using the flash area block</span>
+<span class="n">os</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="n">bdev</span><span class="p">,</span> <span class="s1">&#39;/flash&#39;</span><span class="p">)</span>                    <span class="c1"># mount the filesystem at the flash storage subdirectory</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/flash/hello.txt&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>     <span class="c1"># open a new file in the directory</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>                  <span class="c1"># write to the file</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/flash/hello.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>      <span class="c1"># print contents of the file</span>
+</pre></div>
+</div>
+<p>For boards such as the frdm_k64f in which the MicroPython application spills into the default flash storage
+partition, use the scratch partition by replacing <code class="docutils literal notranslate"><span class="pre">FlashArea.STORAGE</span></code> with the integer value 4.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="repl.html" class="btn btn-neutral float-left" title="2. Getting a MicroPython REPL prompt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pins.html" class="btn btn-neutral float-right" title="4. GPIO Pins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Getting a MicroPython REPL prompt &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3. Filesystems and Storage" href="storage.html" />
+    <link rel="prev" title="1. Getting started with MicroPython on the Zephyr port" href="intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../library/index.html">MicroPython libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">MicroPython license information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyboard/quickref.html">Quick reference for the pyboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp8266/quickref.html">Quick reference for the ESP8266</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wipy/quickref.html">Quick reference for the WiPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickref.html">Quick reference for the Zephyr port</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general.html">General information about the Zephyr port</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">MicroPython tutorial for the Zephyr port</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="intro.html">1. Getting started with MicroPython on the Zephyr port</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">2. Getting a MicroPython REPL prompt</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#repl-over-the-serial-port">2.1. REPL over the serial port</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-repl">2.2. Using the REPL</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="storage.html">3. Filesystems and Storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pins.html">4. GPIO Pins</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#running-micropython">Running MicroPython</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#delay-and-timing">Delay and timing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pins-and-gpio">Pins and GPIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#hardware-i2c-bus">Hardware I2C bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#hardware-spi-bus">Hardware SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#disk-access">Disk Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#flash-area">Flash Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#sensor">Sensor</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../quickref.html">Quick reference for the Zephyr port</a> &raquo;</li>
+          <li><a href="index.html">MicroPython tutorial for the Zephyr port</a> &raquo;</li>
+      <li><span class="section-number">2. </span>Getting a MicroPython REPL prompt</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/zephyr/tutorial/repl.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-a-micropython-repl-prompt">
+<h1><span class="section-number">2. </span>Getting a MicroPython REPL prompt<a class="headerlink" href="#getting-a-micropython-repl-prompt" title="Permalink to this headline">¶</a></h1>
+<p>REPL stands for Read Evaluate Print Loop, and is the name given to the
+interactive MicroPython prompt that you can access on your board through
+Zephyr. It is recommended to use REPL to test out your code and run commands.</p>
+<section id="repl-over-the-serial-port">
+<h2><span class="section-number">2.1. </span>REPL over the serial port<a class="headerlink" href="#repl-over-the-serial-port" title="Permalink to this headline">¶</a></h2>
+<p>The REPL is available on a UART serial peripheral specified for the board by
+the <code class="docutils literal notranslate"><span class="pre">zephyr,console</span></code> devicetree node. The baudrate of the REPL is 115200.
+If your board has a USB-serial convertor on it then you should be able to access
+the REPL directly from your PC.</p>
+<p>To access the prompt over USB-serial you will need to use a terminal emulator
+program. For a Linux or Mac machine, open a terminal and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">screen</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">ttyACM0</span> <span class="mi">115200</span>
+</pre></div>
+</div>
+<p>You can also try <code class="docutils literal notranslate"><span class="pre">picocom</span></code> or <code class="docutils literal notranslate"><span class="pre">minicom</span></code> instead of screen. You may have to use
+<code class="docutils literal notranslate"><span class="pre">/dev/ttyACM1</span></code> or a higher number for <code class="docutils literal notranslate"><span class="pre">ttyACM</span></code>. Additional permissions
+may be necessary to access this device (eg group <code class="docutils literal notranslate"><span class="pre">uucp</span></code> or <code class="docutils literal notranslate"><span class="pre">dialout</span></code>, or use sudo).
+For Windows, get a terminal software, such as puTTY and connect via a serial session
+using the proper COM port.</p>
+</section>
+<section id="using-the-repl">
+<h2><span class="section-number">2.2. </span>Using the REPL<a class="headerlink" href="#using-the-repl" title="Permalink to this headline">¶</a></h2>
+<p>With your serial program open (PuTTY, screen, picocom, etc) you may see a
+blank screen with a flashing cursor. Press Enter (or reset the board) and
+you should be presented with the following text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">***</span> <span class="n">Booting</span> <span class="n">Zephyr</span> <span class="n">OS</span> <span class="n">build</span> <span class="n">v2</span><span class="mf">.6.0</span><span class="o">-</span><span class="n">rc1</span><span class="o">-</span><span class="mi">416</span><span class="o">-</span><span class="n">g3056c5ec30ad</span>  <span class="o">***</span>
+<span class="n">MicroPython</span> <span class="n">v2</span><span class="mf">.6.0</span><span class="o">-</span><span class="n">rc1</span><span class="o">-</span><span class="mi">416</span><span class="o">-</span><span class="n">g3056c5ec30</span> <span class="n">on</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">24</span><span class="p">;</span> <span class="n">zephyr</span><span class="o">-</span><span class="n">frdm_k64f</span> <span class="k">with</span> <span class="n">mk64f12</span>
+<span class="n">Type</span> <span class="s2">&quot;help()&quot;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Now you can try running MicroPython code directly on your board.</p>
+<p>Anything you type at the prompt, indicated by <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span></code>, will be executed after you press
+the Enter key. If there is an error with the text that you enter then an error
+message is printed.</p>
+<p>Start by typing the following at the prompt to make sure it is working:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello world!&quot;</span><span class="p">)</span>
+<span class="go">hello world!</span>
+</pre></div>
+</div>
+<p>If you already know some python you can now try some basic commands here. For
+example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">3</span> <span class="o">*</span> <span class="s1">&#39;Zephyr&#39;</span>
+<span class="go">ZephyrZephyrZephyr</span>
+</pre></div>
+</div>
+<p>If your board has an LED, you can blink it using the following code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;import time</span>
+<span class="go">&gt;&gt;&gt;from machine import Pin</span>
+
+<span class="go">&gt;&gt;&gt;LED = Pin((&quot;GPIO_1&quot;, 21), Pin.OUT)</span>
+<span class="go">&gt;&gt;&gt;while True:</span>
+<span class="gp">... </span>   <span class="n">LED</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="n">LED</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The above code uses an LED location for a FRDM-K64F board (port B, pin 21;
+following Zephyr conventions ports are identified by “GPIO_x”, where <em>x</em>
+starts from 0). You will need to adjust it for another board using the board’s
+reference materials.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="intro.html" class="btn btn-neutral float-left" title="1. Getting started with MicroPython on the Zephyr port" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="storage.html" class="btn btn-neutral float-right" title="3. Filesystems and Storage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

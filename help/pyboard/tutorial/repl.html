@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. Getting a MicroPython REPL prompt &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="4. Turning on LEDs and basic Python concepts" href="leds.html" />
+    <link rel="prev" title="2. Running your first script" href="script.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../library/index.html">MicroPython libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">MicroPython license information</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickref.html">Quick reference for the pyboard</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general.html">General information about the pyboard</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">MicroPython tutorial for the pyboard</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="intro.html">1. Introduction to the pyboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="script.html">2. Running your first script</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">3. Getting a MicroPython REPL prompt</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#windows">3.1. Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mac-os-x">3.2. Mac OS X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linux">3.3. Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-repl-prompt">3.4. Using the REPL prompt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resetting-the-board">3.5. Resetting the board</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="leds.html">4. Turning on LEDs and basic Python concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="switch.html">5. Switches, callbacks and interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="accel.html">6. The accelerometer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reset.html">7. Safe mode and factory reset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usb_mouse.html">8. Making the pyboard act as a USB mouse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">9. The Timers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="assembler.html">10. Inline assembler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_ctrl.html">11. Power control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#tutorials-requiring-extra-components">Tutorials requiring extra components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#tips-tricks-and-useful-things-to-know">Tips, tricks and useful things to know</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#general-board-control">General board control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#delay-and-timing">Delay and timing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#internal-leds">Internal LEDs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#internal-switch">Internal switch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pins-and-gpio">Pins and GPIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#servo-control">Servo control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#external-interrupts">External interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#timers">Timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#rtc-real-time-clock">RTC (real time clock)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pwm-pulse-width-modulation">PWM (pulse width modulation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#adc-analog-to-digital-conversion">ADC (analog to digital conversion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#dac-digital-to-analog-conversion">DAC (digital to analog conversion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#uart-serial-bus">UART (serial bus)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#spi-bus">SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#i2c-bus">I2C bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#i2s-bus">I2S bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#can-bus-controller-area-network">CAN bus (controller area network)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#internal-accelerometer">Internal accelerometer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp8266/quickref.html">Quick reference for the ESP8266</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wipy/quickref.html">Quick reference for the WiPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zephyr/quickref.html">Quick reference for the Zephyr port</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../quickref.html">Quick reference for the pyboard</a> &raquo;</li>
+          <li><a href="index.html">MicroPython tutorial for the pyboard</a> &raquo;</li>
+      <li><span class="section-number">3. </span>Getting a MicroPython REPL prompt</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/pyboard/tutorial/repl.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-a-micropython-repl-prompt">
+<h1><span class="section-number">3. </span>Getting a MicroPython REPL prompt<a class="headerlink" href="#getting-a-micropython-repl-prompt" title="Permalink to this headline">¶</a></h1>
+<p>REPL stands for Read Evaluate Print Loop, and is the name given to the
+interactive MicroPython prompt that you can access on the pyboard.  Using
+the REPL is by far the easiest way to test out your code and run commands.
+You can use the REPL in addition to writing scripts in <code class="docutils literal notranslate"><span class="pre">main.py</span></code>.</p>
+<p>To use the REPL, you must connect to the serial USB device on the pyboard.
+How you do this depends on your operating system.</p>
+<section id="windows">
+<h2><span class="section-number">3.1. </span>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
+<p>You need to install the pyboard driver to use the serial USB device.
+The driver is on the pyboard’s USB flash drive, and is called <code class="docutils literal notranslate"><span class="pre">pybcdc.inf</span></code>.</p>
+<p>To install this driver you need to go to Device Manager
+for your computer, find the pyboard in the list of devices (it should have
+a warning sign next to it because it’s not working yet), right click on
+the pyboard device, select Properties, then Install Driver.  You need to
+then select the option to find the driver manually (don’t use Windows auto update),
+navigate to the pyboard’s USB drive, and select that.  It should then install.
+After installing, go back to the Device Manager to find the installed pyboard,
+and see which COM port it is (eg COM4).
+More comprehensive instructions can be found in the
+<a class="reference external" href="http://micropython.org/resources/Micro-Python-Windows-setup.pdf">Guide for pyboard on Windows (PDF)</a>.
+Please consult this guide if you are having problems installing the driver.</p>
+<p>You now need to run your terminal program.  You can use HyperTerminal if you
+have it installed, or download the free program PuTTY:
+<a class="reference external" href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">putty.exe</a>.
+Using your serial program you must connect to the COM port that you found in the
+previous step.  With PuTTY, click on “Session” in the left-hand panel, then click
+the “Serial” radio button on the right, then enter you COM port (eg COM4) in the
+“Serial Line” box.  Finally, click the “Open” button.</p>
+</section>
+<section id="mac-os-x">
+<h2><span class="section-number">3.2. </span>Mac OS X<a class="headerlink" href="#mac-os-x" title="Permalink to this headline">¶</a></h2>
+<p>Open a terminal and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">screen</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">tty</span><span class="o">.</span><span class="n">usbmodem</span><span class="o">*</span>
+</pre></div>
+</div>
+<p>When you are finished and want to exit screen, type CTRL-A CTRL-\.</p>
+</section>
+<section id="linux">
+<h2><span class="section-number">3.3. </span>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
+<p>Open a terminal and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">screen</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">ttyACM0</span>
+</pre></div>
+</div>
+<p>You can also try <code class="docutils literal notranslate"><span class="pre">picocom</span></code> or <code class="docutils literal notranslate"><span class="pre">minicom</span></code> instead of screen.  You may have to
+use <code class="docutils literal notranslate"><span class="pre">/dev/ttyACM1</span></code> or a higher number for <code class="docutils literal notranslate"><span class="pre">ttyACM</span></code>.  And, you may need to give
+yourself the correct permissions to access this devices (eg group <code class="docutils literal notranslate"><span class="pre">uucp</span></code> or <code class="docutils literal notranslate"><span class="pre">dialout</span></code>,
+or use sudo).</p>
+</section>
+<section id="using-the-repl-prompt">
+<h2><span class="section-number">3.4. </span>Using the REPL prompt<a class="headerlink" href="#using-the-repl-prompt" title="Permalink to this headline">¶</a></h2>
+<p>Now let’s try running some MicroPython code directly on the pyboard.</p>
+<p>With your serial program open (PuTTY, screen, picocom, etc) you may see a blank
+screen with a flashing cursor.  Press Enter and you should be presented with a
+MicroPython prompt, i.e. <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span></code>.  Let’s make sure it is working with the obligatory test:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello pyboard!&quot;</span><span class="p">)</span>
+<span class="go">hello pyboard!</span>
+</pre></div>
+</div>
+<p>In the above, you should not type in the <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span></code> characters.  They are there to
+indicate that you should type the text after it at the prompt.  In the end, once
+you have entered the text <code class="docutils literal notranslate"><span class="pre">print(&quot;hello</span> <span class="pre">pyboard!&quot;)</span></code> and pressed Enter, the output
+on your screen should look like it does above.</p>
+<p>If you already know some python you can now try some basic commands here.</p>
+<p>If any of this is not working you can try either a hard reset or a soft reset;
+see below.</p>
+<p>Go ahead and try typing in some other commands.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyb</span><span class="o">.</span><span class="n">LED</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">on</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyb</span><span class="o">.</span><span class="n">LED</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">on</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">20</span> <span class="o">*</span> <span class="s1">&#39;py&#39;</span>
+<span class="go">&#39;pypypypypypypypypypypypypypypypypypypypy&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="resetting-the-board">
+<h2><span class="section-number">3.5. </span>Resetting the board<a class="headerlink" href="#resetting-the-board" title="Permalink to this headline">¶</a></h2>
+<p>If something goes wrong, you can reset the board in two ways. The first is to press CTRL-D
+at the MicroPython prompt, which performs a soft reset.  You will see a message something like</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;</span>
+<span class="go">MPY: sync filesystems</span>
+<span class="go">MPY: soft reboot</span>
+<span class="go">Micro Python v1.0 on 2014-05-03; PYBv1.0 with STM32F405RG</span>
+<span class="go">Type &quot;help()&quot; for more information.</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>If that isn’t working you can perform a hard reset (turn-it-off-and-on-again) by pressing the RST
+switch (the small black button closest to the micro-USB socket on the board). This will end your
+session, disconnecting whatever program (PuTTY, screen, etc) that you used to connect to the pyboard.</p>
+<p>If you are going to do a hard-reset, it’s recommended to first close your serial program and eject/unmount
+the pyboard drive.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="script.html" class="btn btn-neutral float-left" title="2. Running your first script" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="leds.html" class="btn btn-neutral float-right" title="4. Turning on LEDs and basic Python concepts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

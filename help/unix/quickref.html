@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick reference for the UNIX and Windows ports &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Quick reference for the Zephyr port" href="../zephyr/quickref.html" />
+    <link rel="prev" title="6. Reset and boot modes" href="../wipy/tutorial/reset.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../library/index.html">MicroPython libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">MicroPython license information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyboard/quickref.html">Quick reference for the pyboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp8266/quickref.html">Quick reference for the ESP8266</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wipy/quickref.html">Quick reference for the WiPy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick reference for the UNIX and Windows ports</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-options">Command line options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment variables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../zephyr/quickref.html">Quick reference for the Zephyr port</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Quick reference for the UNIX and Windows ports</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/unix/quickref.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quick-reference-for-the-unix-and-windows-ports">
+<span id="unix-quickref"></span><h1>Quick reference for the UNIX and Windows ports<a class="headerlink" href="#quick-reference-for-the-unix-and-windows-ports" title="Permalink to this headline">¶</a></h1>
+<section id="command-line-options">
+<h2>Command line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h2>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">micropython</span> <span class="p">[</span> <span class="o">-</span><span class="n">h</span> <span class="p">]</span> <span class="p">[</span> <span class="o">-</span><span class="n">i</span> <span class="p">]</span> <span class="p">[</span> <span class="o">-</span><span class="n">O</span><span class="o">&lt;</span><span class="n">level</span><span class="o">&gt;</span> <span class="p">]</span> <span class="p">[</span> <span class="o">-</span><span class="n">v</span> <span class="p">]</span> <span class="p">[</span> <span class="o">-</span><span class="n">X</span> <span class="o">&lt;</span><span class="n">option</span><span class="o">&gt;</span> <span class="p">]</span> <span class="p">[</span> <span class="o">-</span><span class="n">c</span> <span class="o">&lt;</span><span class="n">command</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">-</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="n">script</span><span class="o">&gt;</span> <span class="p">]</span> <span class="p">[</span> <span class="o">&lt;</span><span class="n">args</span><span class="o">&gt;</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>Invocation options:</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-c">
+<span class="sig-name descname"><span class="pre">-c</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;command&gt;</span></span><a class="headerlink" href="#cmdoption-c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the code in <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code>. The code can be one or more Python statements.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-m">
+<span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;module&gt;</span></span><a class="headerlink" href="#cmdoption-m" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the module <code class="docutils literal notranslate"><span class="pre">&lt;module&gt;</span></code>. The module must be in <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-script">
+<span class="sig-name descname"><span class="pre">&lt;script&gt;</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-arg-script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the file <code class="docutils literal notranslate"><span class="pre">&lt;script&gt;</span></code>. The script must be a valid MicroPython source
+code file.</p>
+</dd></dl>
+
+<p>If none of the 3 options above are given, then MicroPython is run in an
+interactive REPL mode.</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-args">
+<span class="sig-name descname"><span class="pre">&lt;args&gt;</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-arg-args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Any additional arguments after the module or script will be passed to
+<code class="docutils literal notranslate"><span class="pre">sys.argv</span></code> (not supported with the <a class="reference internal" href="#cmdoption-c"><code class="xref std std-option docutils literal notranslate"><span class="pre">-c</span></code></a> option).</p>
+</dd></dl>
+
+<p>General options:</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-h">
+<span class="sig-name descname"><span class="pre">-h</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints a help message containing the command line usage and exits.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-i">
+<span class="sig-name descname"><span class="pre">-i</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-i" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables inspection. When this flag is set, MicroPython will enter the
+interactive REPL mode after the command, module or script has finished.
+This can be useful for debugging the state after an unhandled exception.
+Also see the <span class="target" id="index-0"></span><a class="reference internal" href="#envvar-MICROPYINSPECT"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">MICROPYINSPECT</span></code></a> environment variable.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-O">
+<span id="cmdoption-o"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"> <span class="pre">|</span> <span class="pre">-O&lt;level&gt;</span> <span class="pre">|</span> <span class="pre">-OO...</span></span><a class="headerlink" href="#cmdoption-O" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the optimization level. The <code class="docutils literal notranslate"><span class="pre">O</span></code> can be followed by a number or can
+be repeated multiple times to indicate the level. E.g. <code class="docutils literal notranslate"><span class="pre">-O3</span></code> is the same
+as <code class="docutils literal notranslate"><span class="pre">-OOO</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-v">
+<span class="sig-name descname"><span class="pre">-v</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increases the verbosity level. This option can be given multiple times.
+This option only has an effect if <code class="docutils literal notranslate"><span class="pre">MICROPY_DEBUG_PRINTERS</span></code> was enabled
+when MicroPython itself was compiled.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-X">
+<span id="cmdoption-x"></span><span class="sig-name descname"><span class="pre">-X</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;option&gt;</span></span><a class="headerlink" href="#cmdoption-X" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specifies additional implementation-specific options. Possible options are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-X</span> <span class="pre">compile-only</span></code> compiles the command, module or script but does not
+run it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-X</span> <span class="pre">emit={bytecode,native,viper}</span></code> sets the default code emitter. Native
+emitters may not be available depending on the settings when MicroPython
+itself was compiled.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-X</span> <span class="pre">heapsize=&lt;n&gt;[w][K|M]</span></code> sets the heap size for the garbage collector.
+The suffix <code class="docutils literal notranslate"><span class="pre">w</span></code> means words instead of bytes. <code class="docutils literal notranslate"><span class="pre">K</span></code> means x1024 and <code class="docutils literal notranslate"><span class="pre">M</span></code>
+means x1024x1024.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="environment-variables">
+<h2>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h2>
+<dl class="std envvar">
+<dt class="sig sig-object std" id="envvar-MICROPYPATH">
+<span class="sig-name descname"><span class="pre">MICROPYPATH</span></span><a class="headerlink" href="#envvar-MICROPYPATH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overrides the default search path for MicroPython libraries. <code class="docutils literal notranslate"><span class="pre">MICROPYPATH</span></code>
+should be set to a colon (semicolon for Windows port) separated list of
+directories. If <code class="docutils literal notranslate"><span class="pre">MICROPYPATH</span></code> is not defined, the search path will be
+<code class="docutils literal notranslate"><span class="pre">~/.micropython/lib:/usr/lib/micropython</span></code> (<code class="docutils literal notranslate"><span class="pre">~/.micropython/lib</span></code> for Windows port)
+or the value of the <code class="docutils literal notranslate"><span class="pre">MICROPY_PY_SYS_PATH_DEFAULT</span></code> option if it was set
+when MicroPython itself was compiled.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt class="sig sig-object std" id="envvar-MICROPYINSPECT">
+<span class="sig-name descname"><span class="pre">MICROPYINSPECT</span></span><a class="headerlink" href="#envvar-MICROPYINSPECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables inspection. If <code class="docutils literal notranslate"><span class="pre">MICROPYINSPECT</span></code> is set to a non-empty string, it
+has the same effect as setting the <a class="reference internal" href="#cmdoption-i"><code class="xref std std-option docutils literal notranslate"><span class="pre">-i</span></code></a> command line option.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../wipy/tutorial/reset.html" class="btn btn-neutral float-left" title="6. Reset and boot modes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../zephyr/quickref.html" class="btn btn-neutral float-right" title="Quick reference for the Zephyr port" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

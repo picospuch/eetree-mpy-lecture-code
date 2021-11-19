@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>7. Safe mode and factory reset &mdash; MicroPython 1.16 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/customstyle.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8. Making the pyboard act as a USB mouse" href="usb_mouse.html" />
+    <link rel="prev" title="6. The accelerometer" href="accel.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> MicroPython
+          </a>
+              <div class="version">
+                1.16
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../library/index.html">MicroPython libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">MicroPython language and implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genrst/index.html">MicroPython differences from CPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../develop/index.html">MicroPython Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">MicroPython license information</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quickref.html">Quick reference for the pyboard</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general.html">General information about the pyboard</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">MicroPython tutorial for the pyboard</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="intro.html">1. Introduction to the pyboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="script.html">2. Running your first script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="repl.html">3. Getting a MicroPython REPL prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="leds.html">4. Turning on LEDs and basic Python concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="switch.html">5. Switches, callbacks and interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="accel.html">6. The accelerometer</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7. Safe mode and factory reset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#safe-mode">7.1. Safe mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#factory-reset-the-filesystem">7.2. Factory reset the filesystem</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="usb_mouse.html">8. Making the pyboard act as a USB mouse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">9. The Timers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="assembler.html">10. Inline assembler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_ctrl.html">11. Power control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#tutorials-requiring-extra-components">Tutorials requiring extra components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#tips-tricks-and-useful-things-to-know">Tips, tricks and useful things to know</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#general-board-control">General board control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#delay-and-timing">Delay and timing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#internal-leds">Internal LEDs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#internal-switch">Internal switch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pins-and-gpio">Pins and GPIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#servo-control">Servo control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#external-interrupts">External interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#timers">Timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#rtc-real-time-clock">RTC (real time clock)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#pwm-pulse-width-modulation">PWM (pulse width modulation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#adc-analog-to-digital-conversion">ADC (analog to digital conversion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#dac-digital-to-analog-conversion">DAC (digital to analog conversion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#uart-serial-bus">UART (serial bus)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#spi-bus">SPI bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#i2c-bus">I2C bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#i2s-bus">I2S bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#can-bus-controller-area-network">CAN bus (controller area network)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickref.html#internal-accelerometer">Internal accelerometer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp8266/quickref.html">Quick reference for the ESP8266</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32/quickref.html">Quick reference for the ESP32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rp2/quickref.html">Quick reference for the RP2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wipy/quickref.html">Quick reference for the WiPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unix/quickref.html">Quick reference for the UNIX and Windows ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zephyr/quickref.html">Quick reference for the Zephyr port</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MicroPython</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../quickref.html">Quick reference for the pyboard</a> &raquo;</li>
+          <li><a href="index.html">MicroPython tutorial for the pyboard</a> &raquo;</li>
+      <li><span class="section-number">7. </span>Safe mode and factory reset</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/pyboard/tutorial/reset.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="safe-mode-and-factory-reset">
+<h1><span class="section-number">7. </span>Safe mode and factory reset<a class="headerlink" href="#safe-mode-and-factory-reset" title="Permalink to this headline">¶</a></h1>
+<p>If something goes wrong with your pyboard, don’t panic!  It is almost
+impossible for you to break the pyboard by programming the wrong thing.</p>
+<p>The first thing to try is to enter safe mode: this temporarily skips
+execution of <code class="docutils literal notranslate"><span class="pre">boot.py</span></code> and <code class="docutils literal notranslate"><span class="pre">main.py</span></code> and gives default USB settings.</p>
+<p>If you have problems with the filesystem you can do a factory reset,
+which restores the filesystem to its original state.</p>
+<section id="safe-mode">
+<h2><span class="section-number">7.1. </span>Safe mode<a class="headerlink" href="#safe-mode" title="Permalink to this headline">¶</a></h2>
+<p>To enter safe mode, do the following steps:</p>
+<ol class="arabic simple">
+<li><p>Connect the pyboard to USB so it powers up.</p></li>
+<li><p>Hold down the USR switch.</p></li>
+<li><p>While still holding down USR, press and release the RST switch.</p></li>
+<li><p>The LEDs will then cycle green to orange to green+orange and back again.</p></li>
+<li><p>Keep holding down USR until <em>only the orange LED is lit</em>, and then let
+go of the USR switch.</p></li>
+<li><p>The orange LED should flash quickly 4 times, and then turn off.</p></li>
+<li><p>You are now in safe mode.</p></li>
+</ol>
+<p>In safe mode, the <code class="docutils literal notranslate"><span class="pre">boot.py</span></code> and <code class="docutils literal notranslate"><span class="pre">main.py</span></code> files are not executed, and so
+the pyboard boots up with default settings.  This means you now have access
+to the filesystem (the USB drive should appear), and you can edit <code class="docutils literal notranslate"><span class="pre">boot.py</span></code>
+and <code class="docutils literal notranslate"><span class="pre">main.py</span></code> to fix any problems.</p>
+<p>Entering safe mode is temporary, and does not make any changes to the
+files on the pyboard.</p>
+</section>
+<section id="factory-reset-the-filesystem">
+<h2><span class="section-number">7.2. </span>Factory reset the filesystem<a class="headerlink" href="#factory-reset-the-filesystem" title="Permalink to this headline">¶</a></h2>
+<p>If you pyboard’s filesystem gets corrupted (for example, you forgot to
+eject/unmount it), or you have some code in <code class="docutils literal notranslate"><span class="pre">boot.py</span></code> or <code class="docutils literal notranslate"><span class="pre">main.py</span></code> which
+you can’t escape from, then you can reset the filesystem.</p>
+<p>Resetting the filesystem deletes all files on the internal pyboard storage
+(not the SD card), and restores the files <code class="docutils literal notranslate"><span class="pre">boot.py</span></code>, <code class="docutils literal notranslate"><span class="pre">main.py</span></code>, <code class="docutils literal notranslate"><span class="pre">README.txt</span></code>
+and <code class="docutils literal notranslate"><span class="pre">pybcdc.inf</span></code> back to their original state.</p>
+<p>To do a factory reset of the filesystem you follow a similar procedure as
+you did to enter safe mode, but release USR on green+orange:</p>
+<ol class="arabic simple">
+<li><p>Connect the pyboard to USB so it powers up.</p></li>
+<li><p>Hold down the USR switch.</p></li>
+<li><p>While still holding down USR, press and release the RST switch.</p></li>
+<li><p>The LEDs will then cycle green to orange to green+orange and back again.</p></li>
+<li><p>Keep holding down USR until <em>both the green and orange LEDs are lit</em>, and
+then let go of the USR switch.</p></li>
+<li><p>The green and orange LEDs should flash quickly 4 times.</p></li>
+<li><p>The red LED will turn on (so red, green and orange are now on).</p></li>
+<li><p>The pyboard is now resetting the filesystem (this takes a few seconds).</p></li>
+<li><p>The LEDs all turn off.</p></li>
+<li><p>You now have a reset filesystem, and are in safe mode.</p></li>
+<li><p>Press and release the RST switch to boot normally.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="accel.html" class="btn btn-neutral float-left" title="6. The accelerometer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usb_mouse.html" class="btn btn-neutral float-right" title="8. Making the pyboard act as a USB mouse" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright - The MicroPython Documentation is Copyright © 2014-2021, Damien P. George, Paul Sokolovsky, and contributors.
+      <span class="lastupdated">Last updated on 08 Nov 2021.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Versions and Downloads</span>
+    latest
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Versions</dt>
+      
+        <dd><a href="//en/latest">latest</a></dd>
+      
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      
+        <dd><a href="//en/latest/micropython-docs.pdf">PDF</a></dd>
+      
+    </dl>
+    <hr/>
+    <dl>
+      <dt>External links</dt>
+        <dd>
+          <a href="https://www.micropython.org">micropython.org</a>
+        </dd>
+        <dd>
+          <a href="https://github.com/micropython/micropython">GitHub</a>
+        </dd>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
