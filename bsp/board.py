@@ -6,7 +6,7 @@ class pin_cfg:
     green_led = 22
     red_led = 26
     
-    piezo = 19
+    buzzer = 19
     mic = 27
     
     i2c0_scl = 17

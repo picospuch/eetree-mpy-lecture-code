@@ -6,6 +6,7 @@ res_objects = $(shell find res -depth 1 -name "*.py" \! -name ".*")
 m ?= no_this_module.py
 
 ## show help
+.PHONY : help
 help :
 	@echo "make help - show help"
 	@echo "make repl - enter into repl mode"
