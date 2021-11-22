@@ -21,3 +21,10 @@ class pin_cfg:
     spi1_rstn = 8
     spi1_cs = 29
 
+    adc0 = 26
+    adc1 = 27
+
+    k1 = 12
+    k2 = 13
+
+
