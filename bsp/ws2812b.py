@@ -43,16 +43,27 @@ def set_24bit(ii, color): # set colors to 24-bit format inside pixel_array
 def hex_to_rgb(hex_val):
     return tuple(int(hex_val.lstrip('#')[ii:ii+2],16) for ii in (0,2,4))
 
-def on(n):
+def on(n, color = "#ffffff"):
     if not ((n >= 1 and n <= 12) and isinstance(n, int)):
         print("arg error")
         return
-    set_24bit((n - 1) % 12, "#ffffff")
+    set_24bit((n - 1) % 12, color)
     update_pix()
     
-def off(n):
+def off(n, color = "#000000"):
     if not ((n >= 1 and n <= 12) and isinstance(n, int)):
         print("arg error")
         return
-    set_24bit((n - 1) % 12, "#000000")
+    set_24bit((n - 1) % 12, color)
     update_pix()
+
+def on_all(color = "#ffffff"):
+    for i in range(0,12):
+        set_24bit(i, color)
+    update_pix()
+
+def off_all(color = "#000000"):
+    for i in range(0,12):
+        set_24bit(i, color)
+    update_pix()
+
