@@ -27,4 +27,4 @@ class pin_cfg:
     k1 = 12
     k2 = 13
 
-
+    pot = 28
