@@ -22,7 +22,9 @@ while True:
 
     oled.fill(0)
     for i in range(128):
-        oled.pixel(i, hist[i], 1)
+        #oled.pixel(i, hist[i], 1)
+        if i >= 1:
+           oled.line(i - 1, hist[i - 1], i, hist[i], 1)
 
     oled.show()
     sleep(0.1)
