@@ -58,3 +58,6 @@ reset :
 clean :
 	rm -r out || true
 	rshell -p $(cdc) rm -rf /pyboard
+
+time :
+	rshell -p $(cdc) date
