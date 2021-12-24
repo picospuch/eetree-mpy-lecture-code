@@ -5,9 +5,6 @@ from mma7660 import MMA7660
 from oled import oled
 import ws2812b
 
-def light_value(l):
-    return "#{0:02x}{1:02x}{2:02x}".format(l, l, l)
-
 i2c1 = I2C(1, scl=Pin(pin_cfg.i2c1_scl), sda=Pin(pin_cfg.i2c1_sda))
 
 acc = MMA7660(i2c1)

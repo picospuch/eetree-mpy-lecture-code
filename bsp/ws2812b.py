@@ -67,3 +67,7 @@ def off_all(color = "#000000"):
         set_24bit(i, color)
     update_pix()
 
+def light_value(l):
+    if l > 255: l = 255
+    elif l < 0: l = 0
+    return "#{0:02x}{1:02x}{2:02x}".format(l, l, l)
