@@ -1,6 +1,6 @@
 ### micropython development system v1.2.3
 
-#cdc = /dev/cu.usbmodem1411101
+#cdc = /dev/cu.usbmodem1411401
 cdc = /dev/cu.usbmodem141101
 bsp_objects = $(shell find bsp -depth 1 -name "*.py" \! -name ".*")
 res_objects = $(shell find res -depth 1 -name "*.py" \! -name ".*")
